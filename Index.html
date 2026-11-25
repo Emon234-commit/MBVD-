@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#0a0a0a">
 <title>MVBD+</title>
 <style>
@@ -947,6 +947,69 @@ nav#nav button i svg{width:25px;height:25px}
 #ageG .ago{background:rgba(255,255,255,.12);color:#fff}
 #ageG .agy{background:#dc3d45;color:#fff}
 #ageG button:active{transform:scale(.96)}
+
+/* ===== v21: Liquid Glass search bar, menu button + menu; nav swipe; search text left; mic ===== */
+header,.menu{
+  --gl-tint:rgba(24,24,30,.38);--gl-hi:rgba(255,255,255,.26);--gl-lo:rgba(255,255,255,.05);--gl-bd:rgba(255,255,255,.34);
+  --gl-sh:0 10px 30px rgba(0,0,0,.4);--gl-in:inset 0 1.5px 1px rgba(255,255,255,.6),inset 0 -1px 1px rgba(255,255,255,.1),inset 0 0 20px rgba(255,255,255,.06);
+}
+:root[data-theme="light"] header,:root[data-theme="light"] .menu{
+  --gl-tint:rgba(255,255,255,.55);--gl-hi:rgba(255,255,255,.8);--gl-lo:rgba(255,255,255,.3);--gl-bd:rgba(255,255,255,.95);
+  --gl-sh:0 0 0 1px rgba(0,0,0,.06),0 10px 26px rgba(0,0,0,.14);--gl-in:inset 0 1.5px 1px #fff;
+}
+header{background:color-mix(in srgb,var(--bg) 58%,transparent)!important;-webkit-backdrop-filter:blur(22px) saturate(170%)!important;backdrop-filter:blur(22px) saturate(170%)!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
+header .search,header #dots{
+  position:relative;overflow:hidden;isolation:isolate;
+  background:linear-gradient(135deg,var(--gl-hi),var(--gl-lo) 55%,rgba(255,255,255,.12)),var(--gl-tint)!important;
+  border:1px solid var(--gl-bd)!important;
+  -webkit-backdrop-filter:blur(26px) saturate(200%) brightness(1.05)!important;backdrop-filter:blur(26px) saturate(200%) brightness(1.05)!important;
+  box-shadow:var(--gl-in),var(--gl-sh)!important;color:var(--tx);
+}
+header .search::before,header #dots::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,0) 50%);pointer-events:none;z-index:0}
+header .search>*,header #dots>*{position:relative;z-index:1}
+header .search:focus-within{border-color:var(--gl-bd)!important;box-shadow:var(--gl-in),0 0 0 3px rgba(255,255,255,.22),var(--gl-sh)!important}
+header #dots{transition:transform .25s cubic-bezier(.34,1.5,.5,1)}
+header #dots:active{transform:scale(.9)}
+/* search text starts at the left, right after the icon */
+header .search{justify-content:flex-start!important;text-align:left!important;direction:ltr}
+header .search input{flex:1 1 auto!important;width:auto!important;min-width:0!important;text-align:left!important;text-indent:0!important;margin:0!important;padding:0!important;-webkit-appearance:none;appearance:none;background:transparent!important;color:var(--tx)}
+header .search input::placeholder{text-align:left;color:var(--mu);opacity:.9}
+/* mic: always there, one tap, bigger hit area */
+#mic,.search:focus-within #mic,.search.act #mic{display:flex!important}
+header #mic{width:34px!important;height:34px!important;margin:0 -2px 0 0!important;flex:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  background:rgba(255,255,255,.16)!important;border:1px solid rgba(255,255,255,.3)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.5)!important}
+header #mic::after{content:"";position:absolute;inset:-6px}
+header #mic.on{background:#ff3b30!important;border-color:#ff3b30!important}
+/* menu panel: Liquid Glass */
+.menu{
+  background:linear-gradient(135deg,var(--gl-hi),var(--gl-lo) 52%,rgba(255,255,255,.12)),var(--gl-tint)!important;
+  border:1px solid var(--gl-bd)!important;
+  -webkit-backdrop-filter:blur(32px) saturate(200%) brightness(1.05)!important;backdrop-filter:blur(32px) saturate(200%) brightness(1.05)!important;
+  box-shadow:var(--gl-in),0 18px 50px rgba(0,0,0,.45)!important;color:var(--tx);overflow:hidden;
+}
+.menu::before{content:"";position:absolute;left:0;right:0;top:0;height:46%;background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,0));pointer-events:none;border-radius:inherit}
+.menu>*{position:relative}
+.menu>button,.menu .mh .ib{
+  background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07))!important;
+  border:1px solid rgba(255,255,255,.26)!important;color:var(--tx)!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.5),0 3px 10px rgba(0,0,0,.12)!important;
+  -webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important;
+  transition:transform .2s cubic-bezier(.34,1.5,.5,1),background .2s}
+:root[data-theme="light"] .menu>button,:root[data-theme="light"] .menu .mh .ib{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.55))!important;border-color:rgba(255,255,255,1)!important;box-shadow:inset 0 1px 1px #fff,0 0 0 1px rgba(0,0,0,.05),0 3px 10px rgba(0,0,0,.08)!important}
+.menu>button:active,.menu .mh .ib:active{transform:scale(.96)}
+.menu .mh b{text-shadow:0 1px 6px rgba(0,0,0,.35)}
+:root[data-theme="light"] .menu .mh b{text-shadow:none}
+/* nav: horizontal swipe handled by JS */
+nav#nav{touch-action:none!important}
+
+/* ===== v22: search bar stays small on tap (no iOS zoom), glass focus ring; smoother swipe ===== */
+header .search input,header .search input:focus{font-size:16px!important;line-height:1.2;transform:none}
+header .search{height:44px!important;transform:none!important}
+header .search:focus-within{border-color:rgba(255,255,255,.75)!important;box-shadow:var(--gl-in),inset 0 0 0 1.5px rgba(255,255,255,.35),var(--gl-sh)!important}
+:root[data-theme="light"] header .search:focus-within{border-color:#fff!important}
+nav#nav.drag #lens{transition:width .15s,opacity .2s!important;box-shadow:inset 0 1.5px 1px rgba(255,255,255,.9),0 8px 22px rgba(0,0,0,.3)}
+nav#nav #lens{transition:transform .45s cubic-bezier(.22,1.25,.4,1),width .35s cubic-bezier(.22,1.1,.4,1),opacity .2s}
+nav#nav{touch-action:none!important;overscroll-behavior:contain}
 </style>
 <script>
 function mvFLogo(i){try{var s=document.createElement("span");s.className="nfsv";s.innerHTML=window.LOGO||'<b class="nfx">MVBD+</b>';i.replaceWith(s)}catch(e){}}
@@ -990,7 +1053,7 @@ function mvFLogo(i){try{var s=document.createElement("span");s.className="nfsv";
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="pgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dc8a"/><stop offset=".5" stop-color="#e6b422"/><stop offset="1" stop-color="#d98a1c"/></linearGradient></defs></svg>
 <header>
   <div id="logoBox"><img id="logoImg" alt="MVBD" src="https://i.postimg.cc/44KSPnx4/att-oy-Oo2Gmpo-Zosd-MY-02obsni-vx-HEL1y-XD7Mh-QGmxk-Hc.jpg"><span id="logoTx" class="hide"></span></div>
-  <label class="search">🔍<input id="q" placeholder="Search…" autocomplete="off"><button type="button" id="mic" aria-label="Voice search" title="Voice search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg></button></label>
+  <div class="search" role="search"><span class="si" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.6"/><path d="m20 20-4.2-4.2"/></svg></span><input id="q" type="text" inputmode="search" enterkeyhint="search" placeholder="Search…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button type="button" id="mic" aria-label="Voice search" title="Voice search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg></button></div>
   
   <div class="mw"><button class="ib" id="dots" title="Menu" aria-label="Menu"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button></div>
 </header>
@@ -1746,55 +1809,78 @@ $("v-req").addEventListener("click",function(e){
     pushN("📩 Request sent",n);REQN="";toast("✓ Request পাঠানো হয়েছে");renderReq();
   }
 });
-/* Liquid Glass nav v2: one-tap tabs (iPhone + Android), sliding glass pill, optional swipe across tabs */
+/* Liquid Glass nav v4: instant tap + buttery finger-follow swipe (rAF-eased, cached geometry, no layout reads while dragging) */
 (function(){
   var nav=$("nav"),lens=document.getElementById("lens")||document.createElement("span");lens.id="lens";
   if(!lens.parentNode)nav.insertBefore(lens,nav.firstChild);
-  var btns=[].slice.call(nav.querySelectorAll("button[data-go]")),down=0,drag=0,sx=0,cur=null,moved=0,first=1;
-  function setLens(x,w){lens.style.width=w+"px";lens.style.transform="translate3d("+x+"px,0,0)"}
+  var btns=[].slice.call(nav.querySelectorAll("button[data-go]")),down=0,drag=0,sx=0,sid=null,cur=null,moved=0,first=1,raf=0,tx=0,nl=0,lw=0,minL=0,maxL=0,x=0,boxes=[];
+  function setLens(px,w){if(w!==lw){lens.style.width=w+"px";lw=w}lens.style.transform="translate3d("+px+"px,0,0)"}
   function posLens(){
     var a=nav.querySelector("button.on");
     if(!a||!a.offsetWidth){lens.style.opacity=0;return}
-    if(first){lens.style.transition="none"}
-    lens.style.opacity=1;setLens(a.offsetLeft,a.offsetWidth);
+    if(first)lens.style.transition="none";
+    lens.style.opacity=1;setLens(a.offsetLeft,a.offsetWidth);x=a.offsetLeft;
     if(first){void lens.offsetWidth;lens.style.transition="";first=0}
   }
   window.posLens=posLens;
-  function under(x){var best=btns[0],bd=1e9;btns.forEach(function(b){var q=b.getBoundingClientRect(),d=Math.abs(q.left+q.width/2-x);if(d<bd){bd=d;best=b}});return best}
+  function measure(){
+    nl=nav.getBoundingClientRect().left;
+    boxes=btns.map(function(b){return{l:b.offsetLeft,w:b.offsetWidth,c:nl+b.offsetLeft+b.offsetWidth/2,b:b}});
+    minL=boxes[0].l;maxL=boxes[boxes.length-1].l;
+  }
+  function under(px){var best=boxes[0],bd=1e9;boxes.forEach(function(o){var d=Math.abs(o.c-px);if(d<bd){bd=d;best=o}});return best}
   function activate(b){
-    var v=b.dataset.go;
     try{if(navigator.vibrate)navigator.vibrate(8)}catch(_){}
-    go(v);
-    if(typeof featNext==="function"){try{featNext(v)}catch(_){}}
+    go(b.dataset.go);
+    if(typeof featNext==="function"){try{featNext(b.dataset.go)}catch(_){}}
     posLens();
   }
-  /* tap: one touch = one switch (click fires on iOS Safari and Android Chrome alike) */
   nav.addEventListener("click",function(e){
     var b=e.target.closest&&e.target.closest("button[data-go]");if(!b)return;
     e.stopPropagation();e.preventDefault();
     if(moved)return;
     activate(b);
   },true);
-  /* swipe across the bar (no pointer capture, so taps are never swallowed) */
-  nav.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse"&&e.button!==0)return;down=1;drag=0;sx=e.clientX;cur=null});
-  nav.addEventListener("pointermove",function(e){
-    if(!down)return;
-    if(!drag){if(Math.abs(e.clientX-sx)<12)return;drag=1;nav.classList.add("drag")}
-    var r=nav.getBoundingClientRect(),w=btns[0].offsetWidth,x=Math.max(btns[0].offsetLeft,Math.min(btns[btns.length-1].offsetLeft,e.clientX-r.left-w/2));
-    setLens(x,w);
-    var b=under(e.clientX);if(b!==cur){cur=b;btns.forEach(function(q){q.classList.toggle("hov",q===b)})}
+  nav.addEventListener("pointerdown",function(e){
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    down=1;drag=0;sx=e.clientX;tx=e.clientX;sid=e.pointerId;cur=null;measure();
   });
+  /* one animation loop while dragging: the glass pill eases toward the finger (no jumps, no per-move layout) */
+  function loop(){
+    raf=0;if(!drag)return;
+    var w=boxes[0].w,target=Math.max(minL,Math.min(maxL,tx-nl-w/2));
+    x+=(target-x)*.38;
+    if(Math.abs(target-x)<.25)x=target;
+    setLens(x,w);
+    var u=under(tx);
+    if(u.b!==cur){cur=u.b;btns.forEach(function(q){q.classList.toggle("hov",q===cur)});try{if(navigator.vibrate)navigator.vibrate(3)}catch(_){}}
+    raf=requestAnimationFrame(loop);
+  }
+  nav.addEventListener("pointermove",function(e){
+    if(!down||e.pointerId!==sid)return;
+    tx=e.clientX;
+    if(!drag){
+      if(Math.abs(e.clientX-sx)<8)return;
+      drag=1;nav.classList.add("drag");
+      try{nav.setPointerCapture(sid)}catch(_){}
+      var a=nav.querySelector("button.on");if(a)x=a.offsetLeft;
+      if(!raf)raf=requestAnimationFrame(loop);
+    }
+    if(e.cancelable)e.preventDefault();
+  },{passive:false});
   function end(ok){
     if(!down)return;down=0;
+    try{nav.releasePointerCapture(sid)}catch(_){}
+    if(raf){cancelAnimationFrame(raf);raf=0}
     if(drag){
-      nav.classList.remove("drag");btns.forEach(function(q){q.classList.remove("hov")});
-      var b=cur;cur=null;moved=1;setTimeout(function(){moved=0},120);
+      drag=0;nav.classList.remove("drag");btns.forEach(function(q){q.classList.remove("hov")});
+      var b=cur;cur=null;moved=1;setTimeout(function(){moved=0},180);
       if(ok&&b)activate(b);else posLens();
     }
-    drag=0;
   }
-  nav.addEventListener("pointerup",function(){end(1)});
-  nav.addEventListener("pointercancel",function(){end(0)});
+  nav.addEventListener("pointerup",function(e){if(e.pointerId===sid)end(1)});
+  nav.addEventListener("pointercancel",function(e){if(e.pointerId===sid)end(1)});
+  nav.addEventListener("lostpointercapture",function(){if(down&&drag)end(1)});
   window.addEventListener("resize",posLens);
   window.addEventListener("orientationchange",function(){setTimeout(posLens,250)});
   if(window.ResizeObserver)new ResizeObserver(posLens).observe(nav);
@@ -1988,11 +2074,12 @@ if(window.visualViewport){
   }
   function mapT(t){vocab();var o=[];t.split(/\s+/).forEach(function(w){var r=mapTok(w);if(r)o.push(r)});return o}
   function fire(){q.dispatchEvent(new Event("input",{bubbles:true}))}
-  var rec=null;
+  var rec=null,lastTap=0,tsx=0,tsy=0,tsOk=0;
+  function setOn(v){mic.classList.toggle("on",!!v)}
   function run(lang,tried){
-    var r=new SR(),done=0,next=null,err="",started=0,wd=null;rec=r;
-    r.lang=lang;r.interimResults=true;r.maxAlternatives=3;
-    r.onstart=function(){started=1;mic.classList.add("on");toast("🎤 বলুন… / Speak now")};
+    var r=new SR(),done=0,next=null,err="",started=0,wd=null;rec=r;r._s=0;r._x=0;
+    r.lang=lang;r.interimResults=true;r.maxAlternatives=3;r.continuous=false;
+    r.onstart=function(){started=1;r._s=1;setOn(1);toast("🎤 বলুন… / Speak now")};
     r.onresult=function(e){
       var last=e.results[e.results.length-1];
       if(!last.isFinal){q.value=last[0].transcript;fire();return}
@@ -2003,25 +2090,45 @@ if(window.visualViewport){
     };
     r.onerror=function(e){
       err=e.error;
+      if(err==="aborted")return;
       if(!tried&&(err==="language-not-supported"||err==="network"||err==="bad-grammar")){next=lang==="en-US"?"bn-BD":"en-US";return}
       var M={"not-allowed":"🎤 মাইক্রোফোন Permission দিন / Allow microphone","service-not-allowed":"🎤 মাইক্রোফোন Permission দিন / Allow microphone","audio-capture":"🎤 মাইক্রোফোন পাওয়া যায়নি / No microphone","network":"🎤 ইন্টারনেট দরকার / Internet needed","language-not-supported":"🎤 ভাষা সাপোর্ট নেই / Language not supported"};
       if(M[err])toast(M[err]);
     };
     r.onend=function(){
-      clearTimeout(wd);mic.classList.remove("on");if(rec===r)rec=null;
+      clearTimeout(wd);if(rec===r)rec=null;
+      if(r._x)return;                       /* stopped by the user: no fake "didn't catch" message */
       if(next){run(next,1);return}
+      setOn(0);
       if(!done&&(!err||err==="no-speech"))toast("🎤 কিছু শুনতে পাইনি / Didn't catch that");
     };
-    wd=setTimeout(function(){if(rec===r&&!started){try{r.abort()}catch(_){}mic.classList.remove("on");rec=null;toast("🎤 Voice চালু হয়নি — Permission/Internet দেখুন / Voice didn't start")}},4000);
-    try{r.start();mic.classList.add("on")}catch(_){clearTimeout(wd);mic.classList.remove("on");rec=null;toast("🎤 Voice চালু হয়নি, আবার চাপুন / Couldn't start, tap again")}
+    wd=setTimeout(function(){if(rec===r&&!started){r._x=1;try{r.abort()}catch(_){}rec=null;setOn(0);toast("🎤 Voice চালু হয়নি — Permission/Internet দেখুন / Voice didn't start")}},5000);
+    try{r.start();setOn(1)}catch(_){
+      clearTimeout(wd);rec=null;setOn(0);
+      setTimeout(function(){try{run(lang,tried)}catch(_){toast("🎤 Voice চালু হয়নি, আবার চাপুন / Couldn't start, tap again")}},200);
+    }
   }
-  ["mousedown","pointerdown","touchstart"].forEach(function(ev){mic.addEventListener(ev,function(e){if(e.cancelable)e.preventDefault()},{passive:false})});
-  mic.addEventListener("click",function(e){
-    e.preventDefault();e.stopPropagation();
+  function micTap(e){
+    if(e&&e.cancelable)e.preventDefault();if(e)e.stopPropagation();
+    var n=Date.now();if(n-lastTap<350)return;lastTap=n;   /* touchend + click of the same tap = one action */
     if(!SR){q.focus();toast("🎤 এই ব্রাউজারে Voice নেই — কীবোর্ডের 🎤 চাপুন / Use your keyboard's mic");return}
-    if(rec){try{rec.abort()}catch(_){}rec=null;mic.classList.remove("on");return}
+    if(rec){var r=rec;r._x=1;rec=null;setOn(0);try{r._s?r.stop():r.abort()}catch(_){}return}   /* tap again = stop */
+    try{q.blur()}catch(_){}
     run(window.APPLANG_SR||"bn-BD",0);
-  });
+  }
+  /* never steal focus / never let the label-less bar swallow the tap */
+  mic.addEventListener("mousedown",function(e){if(e.cancelable)e.preventDefault()});
+  mic.addEventListener("touchstart",function(e){var t=e.touches[0];tsx=t.clientX;tsy=t.clientY;tsOk=1},{passive:true});
+  /* touchend fires instantly (no 300ms wait) and counts as a user gesture, so voice starts on the FIRST touch */
+  mic.addEventListener("touchend",function(e){
+    if(!tsOk)return;tsOk=0;var t=e.changedTouches[0];
+    if(Math.abs(t.clientX-tsx)>12||Math.abs(t.clientY-tsy)>12)return;
+    micTap(e);
+  },{passive:false});
+  mic.addEventListener("click",micTap);
+  /* tap anywhere on the bar (except mic) puts the cursor in the search box */
+  var sbx=document.querySelector("header .search");
+  if(sbx)sbx.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#mic"))return;if(document.activeElement!==q)q.focus()});
 })();
 
 /* display prefs: accent colour, text size, reduce animations */
@@ -2522,5 +2629,92 @@ function renderTeam(){
 }
 renderTeam();
 </script>
+<style id="v23">
+/* ===== v23: iPhone Liquid Glass search + menu, fixed mic hit-area, smooth nav swipe ===== */
+header{
+  --lg-bg:rgba(118,118,132,.20);--lg-hi:rgba(255,255,255,.34);--lg-lo:rgba(255,255,255,.07);--lg-bd:rgba(255,255,255,.30);
+  --lg-sh:0 8px 22px rgba(0,0,0,.30);
+}
+:root[data-theme="light"] header{--lg-bg:rgba(255,255,255,.52);--lg-hi:rgba(255,255,255,.92);--lg-lo:rgba(255,255,255,.35);--lg-bd:rgba(255,255,255,.95);--lg-sh:0 0 0 1px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.12)}
+header{
+  background:linear-gradient(180deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 78%,transparent) 62%,transparent 100%)!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;border:0!important;box-shadow:none!important;
+  padding:8px 10px 12px!important;gap:10px!important;align-items:center!important}
+/* the glass pills */
+header .search,header #dots{
+  position:relative;isolation:isolate;overflow:visible!important;height:40px!important;border-radius:999px!important;
+  background:linear-gradient(135deg,var(--lg-hi),var(--lg-lo) 48%,rgba(255,255,255,.16)),var(--lg-bg)!important;
+  border:1px solid var(--lg-bd)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(190%) brightness(1.06)!important;backdrop-filter:blur(20px) saturate(190%) brightness(1.06)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.7),inset 0 -1px 1px rgba(255,255,255,.14),inset 0 0 16px rgba(255,255,255,.07),var(--lg-sh)!important;
+  color:var(--tx)}
+header .search::before,header #dots::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,0) 52%)}
+header .search>*,header #dots>*{position:relative;z-index:1}
+/* search: fixed size, never grows on tap, text starts right after the icon */
+header .search{
+  flex:1 1 0!important;min-width:0!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  gap:8px!important;padding:0 4px 0 13px!important;font-size:16px!important;text-align:left!important;direction:ltr;
+  transform:none!important;transition:border-color .2s,box-shadow .2s!important}
+header .search:focus-within{height:40px!important;transform:none!important;
+  border-color:rgba(255,255,255,.85)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.8),0 0 0 3px rgba(255,255,255,.2),var(--lg-sh)!important}
+header .search .si{flex:none;width:18px;height:18px;display:flex;color:var(--mu)}
+header .search .si svg{width:100%;height:100%}
+header .search input#q{
+  flex:1 1 0!important;width:0!important;min-width:0!important;height:100%!important;
+  padding:0!important;margin:0!important;border:0!important;outline:0!important;background:transparent!important;
+  font-size:16px!important;line-height:normal!important;text-align:left!important;text-align:start!important;text-indent:0!important;
+  color:var(--tx)!important;-webkit-appearance:none;appearance:none;box-shadow:none!important;border-radius:0!important}
+header .search input#q::placeholder{color:var(--mu);opacity:.9;text-align:left}
+/* mic: always visible, big touch target, one tap */
+header #mic{display:flex!important;flex:none;align-items:center;justify-content:center;position:relative;width:34px!important;height:34px!important;margin:0!important;padding:0!important;
+  border-radius:50%!important;color:var(--tx);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;
+  background:rgba(255,255,255,.18)!important;border:1px solid rgba(255,255,255,.34)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55)!important}
+header #mic::after{content:"";position:absolute;inset:-8px -6px;border-radius:50%}
+header #mic svg{width:17px;height:17px;fill:currentColor;pointer-events:none}
+header #mic.on{background:#ff3b30!important;border-color:#ff3b30!important;color:#fff;animation:micp 1s infinite}
+/* 3-line / dots button */
+header #dots{width:40px!important;height:40px!important;flex:none;padding:0!important;display:flex!important;align-items:center;justify-content:center;font-size:1.35rem!important;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .25s cubic-bezier(.34,1.5,.5,1)!important}
+header #dots:active{transform:scale(.9)!important}
+header #logoBox{max-width:28vw!important}
+header #logoImg{height:46px!important;max-width:28vw!important}
+header #logoTx svg{height:46px!important}
+
+/* menu: floating iPhone glass popover that opens from the button */
+#mbk{background:rgba(0,0,0,.28)!important;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#menu.menu{
+  --lg-hi:rgba(255,255,255,.30);--lg-lo:rgba(255,255,255,.06);--lg-bd:rgba(255,255,255,.34);
+  inset:auto!important;top:calc(env(safe-area-inset-top,0px) + 58px)!important;right:10px!important;left:auto!important;bottom:auto!important;
+  width:min(78vw,310px)!important;min-width:0!important;max-width:none!important;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 150px)!important;
+  padding:10px!important;gap:6px!important;border-radius:30px!important;overflow-x:hidden!important;overflow-y:auto!important;
+  transform-origin:top right;animation:mpop .34s cubic-bezier(.2,1.25,.4,1)!important;
+  background:linear-gradient(135deg,var(--lg-hi),var(--lg-lo) 50%,rgba(255,255,255,.14)),rgba(40,40,48,.42)!important;
+  border:1px solid var(--lg-bd)!important;
+  -webkit-backdrop-filter:blur(30px) saturate(200%) brightness(1.06)!important;backdrop-filter:blur(30px) saturate(200%) brightness(1.06)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.7),inset 0 -1px 1px rgba(255,255,255,.12),0 20px 50px rgba(0,0,0,.45)!important}
+:root[data-theme="light"] #menu.menu{background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.5) 52%,rgba(255,255,255,.75)),rgba(255,255,255,.55)!important;border-color:#fff!important;
+  box-shadow:inset 0 1.5px 1px #fff,0 0 0 1px rgba(0,0,0,.05),0 20px 46px rgba(0,0,0,.2)!important}
+@keyframes mpop{from{opacity:0;transform:scale(.72) translateY(-10px)}to{opacity:1;transform:none}}
+#menu .mh{display:flex;justify-content:space-between;align-items:center;font-size:1.05rem;margin:2px 4px 4px 8px}
+#menu .mh .ib{width:34px!important;height:34px!important;font-size:1rem!important;border-radius:50%!important}
+#menu>button{text-align:left;padding:13px 16px!important;font-size:1rem!important;font-weight:600;border-radius:20px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07))!important;border:1px solid rgba(255,255,255,.22)!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.45)!important;color:var(--tx)!important;-webkit-tap-highlight-color:transparent}
+#menu>button:active{transform:scale(.97);background:rgba(255,255,255,.3)!important}
+
+/* nav: lighter to paint = no lag while swiping */
+nav#nav{-webkit-backdrop-filter:blur(20px) saturate(180%) brightness(1.05)!important;backdrop-filter:blur(20px) saturate(180%) brightness(1.05)!important;
+  touch-action:none!important;contain:layout paint;-webkit-transform:translateZ(0);transform:translateZ(0)}
+nav#nav::after{left:0!important;top:-40%;bottom:-40%;animation:glSweep2 7s ease-in-out infinite!important;transform:translate3d(-150%,0,0) rotate(14deg)}
+@keyframes glSweep2{0%,62%{transform:translate3d(-150%,0,0) rotate(14deg);opacity:0}70%{opacity:1}100%{transform:translate3d(520%,0,0) rotate(14deg);opacity:0}}
+nav#nav.drag::after{animation:none!important;opacity:0}
+nav#nav #lens{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;left:0!important;will-change:transform;
+  transition:transform .45s cubic-bezier(.22,1.2,.4,1),width .3s cubic-bezier(.34,1.2,.5,1),opacity .2s!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.85),inset 0 -6px 12px rgba(255,255,255,.08),0 4px 12px rgba(0,0,0,.2)!important}
+nav#nav.drag #lens{transition:none!important}
+nav#nav.drag button i{transition:none!important}
+</style>
 </body>
-  </html>
+</html>
